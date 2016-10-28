@@ -597,7 +597,7 @@ function draw(state, menus) {
     m.draw(ctx);
   });
   // DEBUG
-  draw_cursor(ctx, state);
+  //draw_cursor(ctx, state);
 }
 
 // Draw mouse position
