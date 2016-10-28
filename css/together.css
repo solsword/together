@@ -2,7 +2,7 @@ body {
   background-color: #346;
 }
 
-#society-canvas {
+#together-canvas {
   position: absolute;
   left: 5%;
   width: 90%;
@@ -12,6 +12,6 @@ body {
   background-color: #ddd;
 }
 
-#society-sprites {
+#together-sprites {
   display: none;
 }

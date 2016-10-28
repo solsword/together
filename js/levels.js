@@ -1,6 +1,6 @@
 // levels.js
 //
-// Fixed level data for society.
+// Fixed level data for together.js.
 
 
 LEVELS = [

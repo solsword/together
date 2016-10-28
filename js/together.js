@@ -1,4 +1,4 @@
-// society.js
+// together.js
 //
 // A block movement game.
 
@@ -386,10 +386,10 @@ function sprite_for(block) {
   if (0 <= block && block < SPRITENAMES.length) {
     name = SPRITENAMES[block];
   }
-  img = $("#ss-" + name)[0];
+  img = $("#s-" + name)[0];
   if (img === undefined) {
     console.log("ERROR: Can't find image: " + name);
-    img = $("#ss-unknown")[0];
+    img = $("#s-unknown")[0];
   }
   return img;
 }
@@ -551,7 +551,7 @@ function keep_drawing() {
 
 function redraw() {
   if (CANVAS == null) {
-    CANVAS = $("#society-canvas")[0];
+    CANVAS = $("#together-canvas")[0];
   }
   draw(
     {
@@ -779,7 +779,7 @@ function init() {
   CURRENT_LEVEL.height = BOARD_HEIGHT;
   CURRENT_LEVEL.blocks = new Array(CURRENT_LEVEL.width * CURRENT_LEVEL.height);
 
-  jqc = $("#society-canvas");
+  jqc = $("#together-canvas");
   CANVAS = jqc[0];
   CONTEXT = CANVAS.getContext("2d");
 

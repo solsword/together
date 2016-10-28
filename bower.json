@@ -1,10 +1,10 @@
 {
-  "name": "society",
+  "name": "together",
   "authors": [
     "Peter Mawhorter <pmawhorter@gmail.com>"
   ],
   "description": "A block puzzle game.",
-  "main": "js/society.js",
+  "main": "js/together.js",
   "moduleType": [],
   "keywords": [
     "game"
