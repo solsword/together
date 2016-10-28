@@ -13,6 +13,9 @@ CONTEXT = null;
 
 MENUS = [];
 
+FULL_BLOCK = 100.0;
+HALF_BLOCK = 50.0;
+
 MPOS = { x: 0, y: 0 };
 
 BOARD_WIDTH = 11;
@@ -514,8 +517,8 @@ function mpos__cpos(state, mpos) {
     y /= m.scale/2.0;
     //x = Math.floor(x);
     //y = Math.floor(y);
-    x *= 100.0;
-    y *= 100.0;
+    x *= FULL_BLOCK;
+    y *= FULL_BLOCK;
     return {
       //x: (2 * (mpos.x - rect.left) - m.offset.x) / m.scale,
       //y: (2 * (mpos.y - rect.top) - m.offset.y) / m.scale
@@ -527,16 +530,16 @@ function mpos__cpos(state, mpos) {
 // canvas -> block pos conversion
 function cpos__bpos(cpos) {
   return {
-    x: Math.floor(cpos.x/100.0),
-    y: Math.floor(cpos.y/100.0)
+    x: Math.floor(cpos.x/FULL_BLOCK),
+    y: Math.floor(cpos.y/FULL_BLOCK)
   };
 }
 
 // block -> canvas pos conversion
 function bpos__cpos(bpos) {
   return {
-    x: bpos.x*100,
-    y: bpos.y*100
+    x: bpos.x*FULL_BLOCK,
+    y: bpos.y*FULL_BLOCK
   };
 }
 
@@ -575,7 +578,7 @@ function draw(state, menus) {
     return;
   }
   ctx.translate(m.offset.x, m.offset.y);
-  ctx.scale(m.scale/100.0, m.scale/100.0);
+  ctx.scale(m.scale/FULL_BLOCK, m.scale/FULL_BLOCK);
   for (x = 0; x < state.level.width; ++x) {
     for (y = 0; y < state.level.height; ++y) {
       i = x + y*state.level.width;
@@ -584,17 +587,17 @@ function draw(state, menus) {
       } else {
         ctx.strokeStyle = "#dddddd";
       }
-      ctx.strokeRect(x*100, y*100, 99, 99);
+      ctx.strokeRect(x*FULL_BLOCK, y*FULL_BLOCK, 99, 99);
       draw_block(
         ctx,
         state.level.blocks[i],
         bpos__cpos({x: x, y: y}),
-        100.0
+        FULL_BLOCK
       );
     }
   }
-  menus.forEach(function (m) {
-    m.draw(ctx);
+  menus.forEach(function (menu) {
+    menu.draw(state, ctx);
   });
   // DEBUG
   //draw_cursor(ctx, state);
@@ -702,8 +705,8 @@ function swipe_from(state, pos, dir) {
   var b = get_block(state.level, pos);
   var m = cmetrics(state);
   var rpos = bpos__cpos(pos);
-  rpos.x += m.scale/2.0;
-  rpos.y += m.scale/2.0;
+  rpos.x += HALF_BLOCK;
+  rpos.y += HALF_BLOCK;
   if (b >= B_SOME_ACTIVE) {
     console.log("active");
     mps = move_possibilities(state, pos, dir);
@@ -733,15 +736,15 @@ function swipe_from(state, pos, dir) {
       mps.forEach(function (ps) {
         items.push({
           size: { x: m.scale, y: m.scale},
-          draw: function(ctx) {
+          draw: function(state, ctx) {
             draw_block(
               ctx,
               ps.block,
               {
-                x: this.pos.x - m.scale / 2.0,
-                y: this.pos.y - m.scale / 2.0
+                x: this.pos.x - HALF_BLOCK,
+                y: this.pos.y - HALF_BLOCK
               },
-              m.scale
+              FULL_BLOCK
             );
           },
           tap: function(state, pos) {

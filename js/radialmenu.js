@@ -25,7 +25,6 @@ function radial_menu_limited(root, items, from, to) {
   count = items.length;
   item_size = root.size;
   radius = 1.0 * item_size;
-  radius = item_size;
   rsize = Math.atan2(item_size, radius);
   layers = [items];
   sweep = to - from;
@@ -68,15 +67,16 @@ function radial_menu_limited(root, items, from, to) {
 
   buttons = [
     button( // the central cancel button
-      function(ctx) {
+      function(state, ctx) {
+        var m = cmetrics(state);
         draw_block(
           ctx,
           B_CANCEL,
           {
-            x: root.pos.x - root.size/2.0,
-            y: root.pos.y - root.size/2.0
+            x: root.pos.x - HALF_BLOCK,
+            y: root.pos.y - HALF_BLOCK
           },
-          root.size
+          FULL_BLOCK
         );
       },
       function(state, pos) {
@@ -98,15 +98,16 @@ function radial_menu_limited(root, items, from, to) {
 
   var result = menu(buttons);
   orig_draw = result.draw;
-  result.draw = function(ctx) {
+  result.draw = function(state, ctx) {
     var root = this.components[0];
     this.components.slice(1,this.components.length).forEach(function (cmp) {
       ctx.beginPath();
       ctx.moveTo(root.pos.x, root.pos.y);
       ctx.lineTo(cmp.pos.x, cmp.pos.y);
+      ctx.lineWidth = 4;
       ctx.stroke();
     });
-    orig_draw(ctx);
+    orig_draw(state, ctx);
   }
   return result;
 }
@@ -124,9 +125,9 @@ function button(draw_function, trigger_function, position, size) {
 function menu(components) {
   return {
     components: components,
-    draw: function(ctx) {
+    draw: function(state, ctx) {
       for (var i = 0; i < components.length; ++i) {
-        components[i].draw(ctx);
+        components[i].draw(state, ctx);
       }
     },
     tap: function(state, pos) {
