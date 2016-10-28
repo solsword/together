@@ -1,0 +1,17 @@
+body {
+  background-color: #346;
+}
+
+#society-canvas {
+  position: absolute;
+  left: 5%;
+  width: 90%;
+  top: 7%;
+  height: 86%;
+  border: 1px solid #333;
+  background-color: #ddd;
+}
+
+#society-sprites {
+  display: none;
+}
